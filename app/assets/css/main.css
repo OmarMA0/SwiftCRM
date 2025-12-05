@@ -1,0 +1,17 @@
+@import "tailwindcss";
+.homepage-background-with-gradient {
+  /* 1. Define the gradient layer FIRST (it sits on top) */
+  background-image: 
+    linear-gradient(
+      to top, /* Adjust direction as needed */
+      rgba(0, 0, 0, 0.8), /* Starts 80% opaque black */
+      rgba(0, 0, 0, 0.5), /* Middle 50% opaque black */
+      transparent /* Ends fully transparent */
+    ),
+    /* 2. Define the image URL SECOND (it sits below) */
+    url('../images/homepage2.jpg'); /* IMPORTANT: Use the public path */
+
+  /* 3. Apply necessary background sizing properties */
+  background-size: cover;
+  background-position: center;
+}
