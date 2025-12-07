@@ -1,5 +1,6 @@
 <script setup>
 const user = useUserStore()
+user.init()
 </script>
 
 <template>

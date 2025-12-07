@@ -9,17 +9,23 @@ export const useUserStore = defineStore('user', {
   actions: {
     setUsername(name) {
       this.username = name
+      if (process.client) {
+        localStorage.setItem('username', name)
+      }
     },
 
     clearUsername() {
       this.username = null
+      if (process.client) {
+        localStorage.removeItem('username')
+      }
     },
-    setPlan(plan) {
-      this.plan = plan
-    },
-    
-    clearPlan() {
-      this.plan = null
+
+    // Load username from localStorage when app starts
+    init() {
+      if (process.client) {
+        this.username = localStorage.getItem('username')
+      }
     }
   }
 })

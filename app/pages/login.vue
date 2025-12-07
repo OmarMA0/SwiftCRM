@@ -17,7 +17,10 @@ async function login(){
         password : password.value
       }
     })
-    if (response === 'success') message.value = " You have successfully logged in"
+    if (response === 'success') {
+      message.value = " You have successfully logged in"
+      user.setUsername(usernameF.value)
+    }
     else message.value = response
   }catch(err){
     isLoading.value = false

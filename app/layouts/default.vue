@@ -1,8 +1,12 @@
 <script setup>
+import { navigateTo } from '#app';
 import { ref } from 'vue';
 const mobileMenuOpen = ref(false)
 const user = useUserStore()
-
+function logout(){
+    user.clearUsername()
+    navigateTo('/')
+}
 </script>
 <template>
     <!--Top Navbar-->
@@ -19,7 +23,7 @@ const user = useUserStore()
             <div class="flex gap-1">
             <ButtonComponent v-if="!user.username"><NuxtLink to="login">
                 Log in</NuxtLink></ButtonComponent>
-            <ButtonComponent v-else class="w-full">Log out</ButtonComponent>
+            <ButtonComponent @click="logout" v-else class="w-full">Log out</ButtonComponent>
             </div>
         </div>
         </div>
@@ -37,7 +41,7 @@ const user = useUserStore()
             <ButtonComponent class="w-full">Pricing</ButtonComponent>
             <ButtonComponent v-if="!user.username" class="w-full"><NuxtLink to="login">
                 Log in</NuxtLink> </ButtonComponent>
-            <ButtonComponent v-else class="w-full">Log out</ButtonComponent>
+            <ButtonComponent @click="logout" v-else class="w-full">Log out</ButtonComponent>
             </div>
         </div>
         <div >
