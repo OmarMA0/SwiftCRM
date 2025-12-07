@@ -17,7 +17,8 @@ const user = useUserStore()
             <ButtonComponent>Contact</ButtonComponent>
             </div>
             <div class="flex gap-1">
-            <ButtonComponent v-if="!user.username">Log in</ButtonComponent>
+            <ButtonComponent v-if="!user.username"><NuxtLink to="login">
+                Log in</NuxtLink></ButtonComponent>
             <ButtonComponent v-else class="w-full">Log out</ButtonComponent>
             </div>
         </div>
@@ -34,7 +35,8 @@ const user = useUserStore()
             <div class="flex flex-col p-1 bg-[#312f2f] border-t border-[#ef626c]" v-if="mobileMenuOpen">
             <ButtonComponent class="w-full">Features</ButtonComponent>
             <ButtonComponent class="w-full">Pricing</ButtonComponent>
-            <ButtonComponent v-if="!user.username" class="w-full">Log in</ButtonComponent>
+            <ButtonComponent v-if="!user.username" class="w-full"><NuxtLink to="login">
+                Log in</NuxtLink> </ButtonComponent>
             <ButtonComponent v-else class="w-full">Log out</ButtonComponent>
             </div>
         </div>
