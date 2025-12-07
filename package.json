@@ -21,6 +21,7 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@iconify-json/iconamoon": "^1.2.2",
     "@iconify-json/meteor-icons": "^1.2.1"
   }
 }

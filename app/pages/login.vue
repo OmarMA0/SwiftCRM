@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { navigateTo } from '#app';
 const isLoading = ref(false)
 const message = ref('')
 const user = useUserStore()
@@ -20,6 +21,7 @@ async function login(){
     if (response === 'success') {
       message.value = " You have successfully logged in"
       user.setUsername(usernameF.value)
+      navigateTo('/dashboard')
     }
     else message.value = response
   }catch(err){
@@ -29,6 +31,7 @@ async function login(){
     isLoading.value = false
   }
 }
+
 </script>
 <template>
     <div class="h-full pt-6 min-h-screen bg-[#312f2f]">

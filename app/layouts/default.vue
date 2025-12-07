@@ -23,25 +23,35 @@ function logout(){
             <div class="flex gap-1">
             <ButtonComponent v-if="!user.username"><NuxtLink to="login">
                 Log in</NuxtLink></ButtonComponent>
-            <ButtonComponent @click="logout" v-else class="w-full">Log out</ButtonComponent>
+            <div v-else class="flex gap-1 w-full">
+            <ButtonComponent @click="logout" class="w-full">Log out</ButtonComponent>
+            <ButtonComponent @click="" class="w-full">
+             <NuxtLink to="profile"><Icon name="iconamoon:profile" size="2rem"/></NuxtLink>
+            </ButtonComponent>
+            </div>
             </div>
         </div>
         </div>
         <!--For Mobile-->
         <div class="flex flex-col lg:hidden w-full bg-[#312f2f] border-b border-[#ef626c]">
-            <div class="flex justify-end">
-            <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-[#ef626c] justify-end">
+            <div class="flex justify-between">
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-[#ef626c]">
                     <Icon name="meteor-icons:xmark" v-if="mobileMenuOpen" :size="24" />
                     <Icon name="meteor-icons:bars" v-else :size="24" />
                 </button>
-                <span v-if="user.username" class="text-[#f5cb5c] text-sm">Hi, {{ user.username }}</span>
+                <p v-if="user.username" class="text-[#ef626c] text-sm p-2">Hi, {{ user.username }}</p>
             </div>
             <div class="flex flex-col p-1 bg-[#312f2f] border-t border-[#ef626c]" v-if="mobileMenuOpen">
             <ButtonComponent class="w-full">Features</ButtonComponent>
             <ButtonComponent class="w-full">Pricing</ButtonComponent>
             <ButtonComponent v-if="!user.username" class="w-full"><NuxtLink to="login">
                 Log in</NuxtLink> </ButtonComponent>
-            <ButtonComponent @click="logout" v-else class="w-full">Log out</ButtonComponent>
+            <div v-else class="flex gap-1 w-full">
+            <ButtonComponent @click="logout" class="w-full">Log out</ButtonComponent>
+            <ButtonComponent class="w-full">
+             <NuxtLink to="profile"><Icon name="iconamoon:profile" size="2rem"/></NuxtLink>
+            </ButtonComponent>
+            </div>
             </div>
         </div>
         <div >

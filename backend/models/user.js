@@ -25,6 +25,13 @@ const userSchema = new mongoose.Schema({
        minLength : 8,
        maxLength : 50,
     },
-    planId : String
+    planId : {
+      type : String,
+      default : 'free',
+    },
+    avatar : {
+      type : String,
+      default : 'https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png',
+    }
 })
 module.exports = mongoose.model('User' , userSchema)
