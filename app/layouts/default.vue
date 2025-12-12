@@ -5,8 +5,11 @@ const mobileMenuOpen = ref(false)
 const user = useUserStore()
 function logout(){
     user.clearUsername()
+    user.clearAvatar()
     navigateTo('/')
 }
+onMounted(()=>{console.log(user.avatar)})
+
 </script>
 <template>
     <!--Top Navbar-->
@@ -25,9 +28,13 @@ function logout(){
                 Log in</NuxtLink></ButtonComponent>
             <div v-else class="flex gap-1 w-full">
             <ButtonComponent @click="logout" class="w-full">Log out</ButtonComponent>
-            <ButtonComponent @click="" class="w-full">
-             <NuxtLink to="profile"><Icon name="iconamoon:profile" size="2rem"/></NuxtLink>
-            </ButtonComponent>
+             <NuxtLink to="profile">
+                <div class="relative w-16 h-full">
+                <img
+                :src="user.avatar"
+                class="w-full h-full rounded-full object-cover"/>
+                </div>
+             </NuxtLink>
             </div>
             </div>
         </div>
