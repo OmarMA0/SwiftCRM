@@ -12,6 +12,7 @@
                 </input>
              </div>
              <ButtonComponent @click="handlePicSubmit">Update your avatar</ButtonComponent>
+             <p v-if="Error" class="text-red-500"> {{ Error }}</p>
         </div>
        <div class="flex justify-center text-white w-full">
         <div class="p-2 flex flex-col gap-2" >
@@ -57,6 +58,8 @@ const lastName = ref('')
 const usernameF = ref('')
 const passwordO = ref('')
 const passwordN = ref('')
+const picSelected = ref('')
+const Error = ref('')
 function handleSubmit(){
 
 }
@@ -64,13 +67,26 @@ function reset(){
 
 }
 function onFileSelected(event){
-    const file = event.target.files[0]
-       if (file && file.type.startsWith('image/')) {
-        profilePic.value = URL.createObjectURL(file)
+    picSelected.value = event.target.files[0]
+       if (picSelected.value && picSelected.value.type.startsWith('image/')) {
+        profilePic.value = URL.createObjectURL(picSelected.value)
        }
 
 }
-function handlePicSubmit(){
-    user.setAvatar(profilePic.value)
+async function handlePicSubmit(){
+    const BACKEND_URL = 'http://localhost:5000/api/users/upload-avatar'
+    if (picSelected.value && user.username){
+    try{
+        const formData = new FormData();
+        formData.append('username', user.username);
+        formData.append('avatar', picSelected.value)
+        const response = await $fetch(BACKEND_URL,{
+            method : 'POST' ,
+            body :formData
+    })
+    }catch(err){
+        Error.value = err
+    }
+    }
 }
 </script>

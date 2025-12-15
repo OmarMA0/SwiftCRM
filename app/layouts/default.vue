@@ -3,13 +3,32 @@ import { navigateTo } from '#app';
 import { ref } from 'vue';
 const mobileMenuOpen = ref(false)
 const user = useUserStore()
+const get_avatar_URL = 'http://localhost:5000/api/users/get-avatar'
+onMounted(() => {
+  user.init()
+})
 function logout(){
     user.clearUsername()
     user.clearAvatar()
     navigateTo('/')
 }
-onMounted(()=>{console.log(user.avatar)})
+watch(
+  () => user.username,
+  async (username) => {
+    if (!username) return
 
+    try {
+      const { avatar } = await $fetch(
+        `http://localhost:5000/api/users/get-avatar/${username}`
+      )
+      user.setAvatar(avatar)
+      console.log(user.avatar)
+    } catch (err) {
+      console.error("Failed to load avatar:", err)
+    }
+  },
+  { immediate: true }
+)
 </script>
 <template>
     <!--Top Navbar-->
@@ -29,9 +48,14 @@ onMounted(()=>{console.log(user.avatar)})
             <div v-else class="flex gap-1 w-full">
             <ButtonComponent @click="logout" class="w-full">Log out</ButtonComponent>
              <NuxtLink to="profile">
-                <div class="relative w-16 h-full">
+                <div v-if="user.avatar" class="relative w-16 h-full">
                 <img
                 :src="user.avatar"
+                class="w-full h-full rounded-full object-cover"/>
+                </div>
+                <div v-else class="relative w-15 h-full">
+                <img
+                src="../assets/images/voidprofile.png"
                 class="w-full h-full rounded-full object-cover"/>
                 </div>
              </NuxtLink>

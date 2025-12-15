@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
+const upload = require("../config/multer");
 
 router.get('/', async(req,res)=>{
     try {
@@ -12,7 +13,7 @@ router.get('/', async(req,res)=>{
     res.status(500).json({ message: "Internal server error" });
   }
 })
-
+// Registering a new user
 router.post('/' , async(req , res)=>{
     try {
   const user = new User({
@@ -56,4 +57,44 @@ router.post('/login', async(req,res)=>{
   }
 })
 
+// uploading avatar image
+router.post('/upload-avatar', upload.single("avatar") ,async(req,res)=>{  
+  try{
+    const [userfound] = await User.find({username : req.body.username})
+    if(userfound){
+    
+    userfound.avatar = {
+      data : req.file.buffer , 
+      contentType : req.file.mimetype,
+    }
+    await userfound.save();
+    res.status(200).json('success');
+  }else {
+    res.status(400).json('No user found')
+  }
+  }catch(err){
+    res.status(500).json('Upload failed')
+  }
+})
+// get the avatar image
+router.get("/get-avatar/:username", async (req, res) => {
+  try {
+    const userfound = await User.findOne({
+      username: req.params.username
+    });
+
+    if (!userfound) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (!userfound.avatar || !userfound.avatar.data) {
+      return res.json({ avatar: null });
+    }
+    // reconverting the image
+    const base64Image = userfound.avatar.data.toString('base64');
+    const avatarUrl = `data:${userfound.avatar.contentType};base64,${base64Image}`;
+    res.json({ avatar: avatarUrl });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;

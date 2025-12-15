@@ -30,8 +30,8 @@ const userSchema = new mongoose.Schema({
       default : 'free',
     },
     avatar : {
-      type : String,
-      default : 'https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png',
+      contentType : String,
+      data : Buffer ,
     }
 })
 module.exports = mongoose.model('User' , userSchema)

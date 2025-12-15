@@ -4,7 +4,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     username: null,
     plan: null,
-    avatar : null
+    avatar: null
   }),
   actions: {
     setUsername(name) {
@@ -14,11 +14,11 @@ export const useUserStore = defineStore('user', {
         localStorage.setItem('username', name)
       }
     },
-    setAvatar(file) {
-      this.avatar = file
+    setAvatar(url) {
+      this.avatar = url
       
       if (process.client) {
-        localStorage.setItem('avatar', file)
+        localStorage.setItem('avatar', url)
       }
     },
 
@@ -27,6 +27,7 @@ export const useUserStore = defineStore('user', {
       
       if (process.client) {
         localStorage.removeItem('username')
+        localStorage.removeItem('avatar')
       }
     },
     clearAvatar() {
@@ -37,7 +38,7 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    // Load username from localStorage when app starts
+    // Load username AND avatar from localStorage when app starts
     init() {
       if (process.client) {
         this.username = localStorage.getItem('username')
