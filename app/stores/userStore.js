@@ -4,7 +4,9 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     username: null,
     plan: null,
-    avatar: null
+    avatar: null,
+    role : null
+    
   }),
   actions: {
     setUsername(name) {

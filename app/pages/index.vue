@@ -35,7 +35,7 @@ user.init()
       </div>
       <!--Sign up Form-->
       <div v-if="!user.username">
-      <Signup class="w-full md:w-1/2 lg:w-1/3 p-4"></Signup>
+      <Signup class="w-full md:w-1/2 lg:w-1/3 p-4">Join us Today for free</Signup>
       <!--Already Logged in-->
       </div v-else>
         

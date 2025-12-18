@@ -22,9 +22,7 @@ watch(
         `http://localhost:5000/api/users/get-avatar/${username}`
       )
       user.setAvatar(avatar)
-      console.log(user.avatar)
     } catch (err) {
-      console.error("Failed to load avatar:", err)
     }
   },
   { immediate: true }

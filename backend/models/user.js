@@ -32,6 +32,16 @@ const userSchema = new mongoose.Schema({
     avatar : {
       contentType : String,
       data : Buffer ,
-    }
+    },
+    role: {
+    type: String,
+    enum: ['admin', 'lead agency', 'acquisition manager' ,'client'],
+    default : 'client'
+    },
+    employer: {
+       type: String  ,       //mongoose.Schema.Types.ObjectId,
+                              // ref: 'User',
+       default: null  
+    },
 })
 module.exports = mongoose.model('User' , userSchema)

@@ -37,6 +37,32 @@ router.post('/' , async(req , res)=>{
     res.status(500).json({ message: "Internal server error x0x0" });
 }
 })
+// Register a new employee
+router.post('/register-employee' , async(req , res)=>{
+    try {
+  const user = new User({
+    username : req.body.username ,
+    password : req.body.password ,
+    email : req.body.email ,
+    role : req.body.role,
+    employer : req.body.employer,
+    planId : 'free'
+  })
+  await user.save()
+  res.status(201).json(user)
+} catch(err){
+  if (err.code === 11000) {
+      // Send a more specific error for duplicate username/email
+      return res.status(409).json({ message: "Username or Email already exists." });
+    }
+    // If it's a Mongoose validation error (e.g., minLength violation)
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ message: err.message });
+    }
+    // General internal server error
+    res.status(500).json({ message: "Internal server error x0x0" });
+}
+})
 // To get the user trying to login
 router.post('/login', async(req,res)=>{
     try {
@@ -56,7 +82,19 @@ router.post('/login', async(req,res)=>{
     res.status(500).json({ message: "Internal server error" });
   }
 })
-
+//Get all my employees
+router.get('/employees/:username', async (req, res) => {
+  try {    
+    const employees = await User.find({ 
+      employer: req.params.username
+    }).select('-password'); // Don't send passwords
+    
+    res.json({ employees });
+    
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 // uploading avatar image
 router.post('/upload-avatar', upload.single("avatar") ,async(req,res)=>{  
   try{
@@ -97,4 +135,25 @@ router.get("/get-avatar/:username", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+//Password Reset
+router.patch('/reset-password/:username' , async(req,res)=>{
+  try{
+  const userfound = await User.findOne({ username : req.params.username})
+   if (!userfound) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if(userfound.password === req.body.oldpassword){
+      userfound.password = req.body.newpassword
+      await userfound.save()
+      return res.status(200).json({message : 'The Password has been reset',
+        body : userfound
+      })
+    }
+    if (userfound.password !== req.body.oldpassword){
+      res.status(200).json({ message : "Wrong Password"})
+    }
+  }catch(err){
+    res.status(500).json({error : err})
+  }
+})
 module.exports = router;
