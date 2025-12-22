@@ -25,7 +25,16 @@ router.post('/push-lead/:employer' , async(req,res)=>{
         res.json(err)
     }
 })
-
+router.get('/get-leads/:employer' , async(req,res)=>{
+    try {
+        const leads = await Lead.find({
+            employer : req.params.employer
+        })
+        res.json(leads)
+    }catch(err){
+        res.json(err)
+    }
+})
 
 
 module.exports = router;

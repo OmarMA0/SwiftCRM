@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const PORT = process.env.PORT || 5000 ; 
 require('dotenv').config();
 const usersRouter = require('./routes/users')
+const leadsRouter = require('./routes/leads')
 // 1. Middleware
 // Enable CORS for all origins during development
 app.use(cors());
@@ -27,3 +28,4 @@ mongoose.connect( process.env.MongoDB_URI)
 })
 
 app.use('/api/users', usersRouter);
+app.use('/api/leads', leadsRouter);
