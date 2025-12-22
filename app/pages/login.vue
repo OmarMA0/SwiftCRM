@@ -7,7 +7,6 @@ const user = useUserStore()
 const BACKEND_URL = 'http://localhost:5000/api/users/login';
 const usernameF = ref('')
 const password = ref('')
-const email = ref('')
 async function login(){
   try{
     isLoading.value = true
@@ -18,12 +17,17 @@ async function login(){
         password : password.value
       }
     })
-    if (response === 'success') {
+    if (response.message === 'success') {
       message.value = " You have successfully logged in"
       user.setUsername(usernameF.value)
+      user.setRole(response.role)
+      if (response.employer) {
+      user.setEmployer(response.employer)
+     }
+      else {user.setEmployer(usernameF.value)} // this is the case when the user is cliet
       navigateTo('/dashboard')
     }
-    else message.value = response
+    else message.value = response.message
   }catch(err){
     isLoading.value = false
     message.value = err

@@ -10,6 +10,7 @@ onMounted(() => {
 function logout(){
     user.clearUsername()
     user.clearAvatar()
+    user.clearRole()
     navigateTo('/')
 }
 watch(
@@ -39,6 +40,7 @@ watch(
             <ButtonComponent>Pricing</ButtonComponent>
             <ButtonComponent>Resources</ButtonComponent>
             <ButtonComponent>Contact</ButtonComponent>
+            <p>{{user.role}}</p>
             </div>
             <div class="flex gap-1">
             <ButtonComponent v-if="!user.username"><NuxtLink to="login">

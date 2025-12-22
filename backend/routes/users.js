@@ -69,13 +69,16 @@ router.post('/login', async(req,res)=>{
     const [userfound] = await User.find({username : req.body.username}); //userfound is an object
       if(userfound){                                           //find() returns an array of objects
         if(userfound.password === req.body.password){
-          res.send('success')
+          res.send({message : 'success' ,
+            role : userfound.role ,
+            employer : userfound.employer
+          })
         }
         else{
-          res.send('wrong password try again')
+          res.send({message :'wrong password try again'})
         }
       }else{
-        res.send('no such username exists')
+        res.send({ message :'no such username exists'})
       }
     
   }  catch (err) {

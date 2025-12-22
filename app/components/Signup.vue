@@ -38,6 +38,8 @@ try{
     message.value = `Success! User registered: ${response.username}`;
     isSuccess.value = true;
     user.setUsername(usernameF.value)
+    user.setEmployer(usernameF.value)
+    user.setRole('client')
     console.log('User created:', response);
 } catch(error){
 isSuccess.value = false;
