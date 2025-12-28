@@ -9,18 +9,21 @@ router.post('/push-lead/:employer' , async(req,res)=>{
         const lead = new Lead({
             seller : req.body.seller ,
             address : req.body.address ,
-            ap : req.body.ap , 
-            closingTimeline : req.body.closingTimeline , 
+            ap : parseMoney(req.body.ap) , 
+            closingTimeline : parseMoney(req.body.closingTimeline) , 
             reason : req.body.reason , 
-            mv : req.body.mv , 
+            mv : parseMoney(req.body.mv) , 
             condition : req.body.condition , 
             note : req.body.note ,
-            datePushed : Date.now ,
-            pusher : req.body.username ,
-            client : req.params.employer
+            pusher : req.body.pusher ,
+            datePushed : Date.now() , 
+            phone : req.body.phone,
+            client : req.params.employer,
+            status : 'new lead',
+            activity : 'active'
         })
         await lead.save()
-        res.status(201).json({"A new lead was pushed"})
+        res.status(201).json("A new lead was pushed")
     }catch(err){
         res.json(err)
     }
@@ -35,6 +38,9 @@ router.get('/get-leads/:employer' , async(req,res)=>{
         res.json(err)
     }
 })
+function parseMoney(val) {
+  if (!val) return 0
+  return Number(val.replace(/[^0-9]/g, '')) //this will replace any character that is not a number
+}
 
-
-module.exports = router;
+module.exports = router ;

@@ -11,6 +11,7 @@ function logout(){
     user.clearUsername()
     user.clearAvatar()
     user.clearRole()
+    user.clearEmployer()
     navigateTo('/')
 }
 watch(

@@ -17,15 +17,25 @@ async function login(){
         password : password.value
       }
     })
+    console.log(response)
     if (response.message === 'success') {
       message.value = " You have successfully logged in"
+      console.log(response.employer)
       user.setUsername(usernameF.value)
       user.setRole(response.role)
       if (response.employer) {
       user.setEmployer(response.employer)
      }
-      else {user.setEmployer(usernameF.value)} // this is the case when the user is cliet
-      navigateTo('/dashboard')
+      else {
+        user.setEmployer(usernameF.value)
+      } // this is the case when the user is cliet
+      if (user.role === 'client') {navigateTo('/dashboard')}
+      else if (user.role === 'lead agency'){
+        navigateTo('/')
+     }
+     else if (user.role === 'acquisition manager'){
+        navigateTo('/leadManagement')
+     }
     }
     else message.value = response.message
   }catch(err){

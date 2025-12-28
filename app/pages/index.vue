@@ -1,6 +1,5 @@
 <script setup>
 const user = useUserStore()
-user.init()
 </script>
 
 <template>
@@ -37,8 +36,21 @@ user.init()
       <div v-if="!user.username">
       <Signup class="w-full md:w-1/2 lg:w-1/3 p-4">Join us Today for free</Signup>
       <!--Already Logged in-->
-      </div v-else>
-        
+      </div>
+      <div class=" flex flex-col items-center text-white">
+        <div v-if="user.role === 'client'" class="pt-10 flex flex-col items-center">
+          <p class="text-2xl md:text-4xl font-semibold drop-shadow"> Go to your dashboard </p>
+        <NuxtLink to="/dashboard"><ButtonComponent class="mt-6">Here</ButtonComponent></NuxtLink>
+        </div>
+        <div v-if="user.role === 'lead agency'" class="pt-10 flex flex-col items-center">
+          <p class="text-2xl md:text-4xl font-semibold drop-shadow"> Submit a new lead </p>
+        <NuxtLink to="/leadForm"><ButtonComponent class="mt-6">Here</ButtonComponent></NuxtLink>
+        </div>
+        <div v-if="user.role === 'acquisition manager'" class="pt-10 flex flex-col items-center">
+          <p class="text-2xl md:text-4xl font-semibold drop-shadow"> Make a new deal </p>
+        <NuxtLink to="/leadManagement"><ButtonComponent class="mt-6">Here</ButtonComponent></NuxtLink>
+        </div>
+        </div>
       </div>
    </div>
 </template>

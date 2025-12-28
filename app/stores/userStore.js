@@ -34,7 +34,7 @@ export const useUserStore = defineStore('user', {
       this.employer = name
       
       if (process.client) {
-        localStorage.setItem('employer', employer)
+        localStorage.setItem('employer', name)
       }
     },
     clearUsername() {
@@ -53,15 +53,13 @@ export const useUserStore = defineStore('user', {
       }
     },
     clearRole() {
-      this.employer = null
-      
+      this.role = null
       if (process.client) {
-        localStorage.removeItem('employer')
+        localStorage.removeItem('role')
       }
     },
     clearEmployer() {
-      this.role = null
-      
+      this.employer = null
       if (process.client) {
         localStorage.removeItem('employer')
       }
@@ -73,7 +71,7 @@ export const useUserStore = defineStore('user', {
         this.username = localStorage.getItem('username')
         this.avatar = localStorage.getItem('avatar')
         this.role = localStorage.getItem('role')
-        this.role = localStorage.getItem('employer')
+        this.employer = localStorage.getItem('employer')
       }
     }
   }

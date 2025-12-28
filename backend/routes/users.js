@@ -64,27 +64,29 @@ router.post('/register-employee' , async(req , res)=>{
 }
 })
 // To get the user trying to login
-router.post('/login', async(req,res)=>{
-    try {
-    const [userfound] = await User.find({username : req.body.username}); //userfound is an object
-      if(userfound){                                           //find() returns an array of objects
-        if(userfound.password === req.body.password){
-          res.send({message : 'success' ,
-            role : userfound.role ,
-            employer : userfound.employer
-          })
-        }
-        else{
-          res.send({message :'wrong password try again'})
-        }
-      }else{
-        res.send({ message :'no such username exists'})
-      }
-    
-  }  catch (err) {
-    res.status(500).json({ message: "Internal server error" });
+router.post('/login', async (req, res) => {
+  try {
+    const userfound = await User.findOne({ username: req.body.username });
+
+    if (!userfound) {
+      return res.send({ message: 'no such username exists' });
+    }
+
+    if (userfound.password !== req.body.password) {
+      return res.send({ message: 'wrong password try again' });
+    }
+
+    res.send({
+      message: 'success',
+      role: userfound.role,
+      employer: userfound.employer ?? null
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal server error' });
   }
-})
+});
 //Get all my employees
 router.get('/employees/:username', async (req, res) => {
   try {    
