@@ -28,14 +28,27 @@ router.post('/push-lead/:employer' , async(req,res)=>{
         res.json(err)
     }
 })
+router.patch('/set-contactor/:_id' , async(req,res)=>{
+    try{
+        const leadfound = await Lead.findOne({_id : req.params._id})
+        if (!leadfound) {
+      return res.status(404).json({ error: "Lead not found" });
+    }
+    leadfound.contactor  = req.body.username 
+    await leadfound.save()
+    res.status(200).json({message : `lead ${req.params._id} has been added to ${req.body.username}`})
+    }catch(err){
+        return res.status(400).json({error : err})
+    }
+})
 router.get('/get-leads/:employer' , async(req,res)=>{
     try {
         const leads = await Lead.find({
-            employer : req.params.employer
+            client : req.params.employer
         })
-        res.json(leads)
+        res.json({leads : leads})
     }catch(err){
-        res.json(err)
+        res.json({error : err})
     }
 })
 function parseMoney(val) {

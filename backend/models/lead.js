@@ -61,6 +61,9 @@ const leadSchema = new mongoose.Schema({
     type : String , 
     enum : ['active' , 'passive'] , 
     default : 'active'
+  },
+  contactor : {
+    type : String,
   }
 
 })

@@ -15,7 +15,6 @@
             <p> phone :<baseInput v-model="phone"></baseInput></p>
             <ButtonComponent @click="submit">Push Lead</ButtonComponent>
             <p v-if="message">{{ message }} </p>
-            <p> {{ user.employer }}</p>
             
             </div>
             </div>
@@ -33,7 +32,13 @@ const condition = ref('')
 const note = ref('')
 const phone = ref('')
 const message = ref('')
-const BACKEND_URL = computed(()=>`http://localhost:5000/api/leads/push-lead/${user.employer}`)  
+const BACKEND_URL = computed(()=> {
+if (!user.employer) {
+    return null
+  }
+return `http://localhost:5000/api/leads/push-lead/${user.employer}`
+})  
+
 async function submit() {
     try{ 
     const response = await $fetch(BACKEND_URL.value , {
