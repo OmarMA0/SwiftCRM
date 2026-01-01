@@ -6,6 +6,7 @@
         :key="section.label"
         class="group flex flex-col gap-2"
       >
+      <!--Each section header and size-->
         <div class="flex items-center gap-2 px-2">
           <div class="w-1 h-4 bg-[#22181c] rounded-full"></div>
           <h3 class="font-semibold text-[#22181c] uppercase tracking-wider text-xs">
@@ -22,6 +23,7 @@
             v-for="lead in section.data" 
             :key="lead._id" 
             class="transition-transform duration-200 hover:-translate-y-1"
+            @click="detailsPage(lead)"
           >
             <LeadCard :lead="lead" />
           </div>
@@ -40,7 +42,7 @@
 
 <script setup>
 import { computed } from 'vue'
-
+import { navigateTo } from '#app'
 const leads = useLeadStore() 
 const user = useUserStore()
 
@@ -57,7 +59,11 @@ const leadSections = computed(() => [
   { label: 'Cold Leads', data: leads.leadsByStatus('cold') },
   { label: 'Deals', data: leads.leadsByStatus('deal') },
 ])
-
+function detailsPage(lead){
+  leads.clearLeadDetails()
+  leads.setLeadDetails(lead)
+  navigateTo(`leads/${lead._id}`)
+}
 watch(
   () => user.employer,
   (employer) => {

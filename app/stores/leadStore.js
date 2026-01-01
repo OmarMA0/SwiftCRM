@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 export const useLeadStore = defineStore('lead', {
   state: () => ({
     leads : [],
+    leadDetails : {}
   }),
   actions: {
     setLeads(LeadArray) {
@@ -11,6 +12,12 @@ export const useLeadStore = defineStore('lead', {
     },
     clearLeads(){
         this.leads = []
+    },
+    setLeadDetails(lead){
+      this.leadDetails = lead
+    },
+    clearLeadDetails(){
+      this.leadDetails = {}
     },
     
     async fetchLeads(employer) {
@@ -35,6 +42,9 @@ export const useLeadStore = defineStore('lead', {
 getters : {
   leadsByStatus : (state)=>{
   return(status)=> state.leads.filter(lead =>lead.status === status)
-  }
+  },
+  leadByID : (state)=>{
+  return(id)=> state.leads.filter(lead =>lead._id === id)
+  },
 }
 })

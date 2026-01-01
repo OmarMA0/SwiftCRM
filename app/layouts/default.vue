@@ -35,7 +35,12 @@ watch(
     <div class="hidden lg:flex flex-col w-full h-full border-b border-[#ef626c]">  
         <div class="bg-[#312f2f] w-full flex justify-between" >
             <p class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#ef626c] mb-4">Swift CRM</p>
+            <div class="flex gap-2">
             <p v-if="user.username" class="text-[#ef626c] font-semibold text-2xl pt-3">Hi , {{ user.username }}</p>
+            <ButtonComponent v-if="user.role === 'acquisition manager'">
+              <NuxtLink to="/leadManagement">Lead Management</NuxtLink>
+            </ButtonComponent>
+            </div>
             <div class="flex gap-1">
             <ButtonComponent v-if="!user.username"><NuxtLink to="/login">
                 Log in</NuxtLink></ButtonComponent>
